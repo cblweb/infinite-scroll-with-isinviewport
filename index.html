@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Simple Infinite Scroll by use of isInViewport">
+    <meta name="author" content="cblweb">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Simple Infinite Scroll by use of isInViewport</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    body { background-color: #FFF; }
+    h1 { padding-top: 20px; }
+    .wrap { box-shadow: 0 0 3px rgba(0,0,0,0.3); background-color: #F3F3F3; margin-bottom: 30px; }
+    .media { width: 100%; text-align: center; color: #FFF; }
+    .media .fa { font-size: 100px; }
+    .caption { padding: 10px; font-size: 20px; text-align: center; }
+    .navbar-right { padding: 11px 15px 0 0; }
+    
+    .loadmore { margin: 50px 0 80px; position: relative; }
+    .loadmore:before { content: ""; z-index: -1; background-color: #DDD; height: 1px; width: 100%; position: absolute; top: 15px; }
+    .spinner-wrap { margin: 0 auto; width: 44px; height: 32px; padding-left: 20px; background-color: #FFF; }
+    .spinner, .spinner:before, .spinner:after {
+      width: 6px;
+      height: 30px;
+      background-color: #09F;
+      border-radius: 2px;
+    }
+    .spinner {
+      display: inline-block;
+      position: relative;
+    }
+    .spinner:before, .spinner:after {
+      content: "";
+      position: absolute;
+      display: block;
+      top: 0px;
+    }
+    .spinner:before {
+      left: -10px;
+    }
+    .spinner:after {
+      left: 10px;
+    }
+    @-webkit-keyframes bounce-middle {
+      0% {
+        height: 4px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+      50% {
+        height: 30px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+      100% {
+        height: 4px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+    }
+    @keyframes bounce-middle {
+      0% {
+        height: 4px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+      50% {
+        height: 30px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+      100% {
+        height: 4px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+    }
+    .loadmore.loading .spinner {
+      -webkit-animation: bounce-middle 0.6s ease 0.1s infinite;
+              animation: bounce-middle 0.6s ease 0.1s infinite;
+    }
+    .loadmore.loading .spinner:before, .loadmore.loading .spinner:after {
+      top: 50%;
+      -webkit-transform: translateY(-10px) translateZ(0);
+              transform: translateY(-10px) translateZ(0);
+    }
+    .loadmore.loading .spinner:before {
+      -webkit-animation: bounce-middle 0.6s ease 0s infinite;
+              animation: bounce-middle 0.6s ease 0s infinite;
+    }
+    .loadmore.loading .spinner:after {
+      -webkit-animation: bounce-middle 0.6s ease 0.2s infinite;
+              animation: bounce-middle 0.6s ease 0.2s infinite;
+    }
+    </style>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Infinite Scroll with isInViewport</a>
+        </div>
+        <div class="navbar-right">
+          <a class="github-button" href="https://github.com/cblweb/infinite-scroll-with-isinviewport/archive/master.zip" data-style="mega" aria-label="Download cblweb/infinite-scroll-with-isinviewport on GitHub">Download</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Hello, world!</h1>
+        <p>Here is a simple workout of infinte scroll using isInViewport.</p>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row" id="item-list">
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="wrap">
+            <div class="media"><i class="fa"></i></div>
+            <div class="caption"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="loadmore" data-nextpage="2" data-url="./ajax/path-to-load-more.html" data-maxpage="5">
+        <div class="spinner-wrap">
+          <div class="spinner"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="vendor/isInViewport.min.js"></script>
+    <script src="vendor/masonry.pkgd.min.js"></script>
+    <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+    <script src="script.js"></script>
+    
+  </body>
+</html>
