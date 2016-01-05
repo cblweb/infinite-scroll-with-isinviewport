@@ -7,7 +7,10 @@ Simple Infinite Scroll uses jquery plugin [isInViewport](https://github.com/zeus
 The example uses masonry for beautiful showcase, it is not necessary.
 
 ## How it Work
-Firstly, we need to listen the a scroll event of $(window), by detect the .loadmore element is or is not in-viewport to decide do or not do the load more action. Then we need to check it is during loading or not to prevent more then one load more action to be called.
+Firstly, we need to listen the scroll event of $(window), by detect the .loadmore element is or is not in-viewport to decide do or not do the *load more action*.
+Then we need to check it is during loading or not to prevent more then one *load more action* to be called.
+Finally, call your loadMore function.
+I would suggest you can save the *load more ajax link*, *the page number* and *the max page number* all in the .loadmore element by data attribute like the demo shown.
 
 ```javascript
 $container = $('#item-list');
@@ -30,13 +33,12 @@ function loadMore(el) {
 			$items = $(data); // Assume data is the html body of the items
 			$container.append($items);
 			$container.masonry('appended',$items);
-			el.removeClass('loading');
+			el.removeClass('loading'); // Remove the class "loading" from the .loadmore element to allow next load more event
 			nextPage++;
-			el.data('nextpage',nextPage);
-			if(nextPage>el.data('maxpage')) {
-				el.addClass('nomore');
+			el.data('nextpage',nextPage); // Add up the page number and save back to the data attribute
+			if(nextPage>el.data('maxpage')) { // Check if maxpage is reached
 				/****** Do something to alert user no more item can load ******/
-				el.hide();
+				el.addClass('nomore'); // This example I add a nomore class to .loadmore element and use css to show that no item is available
 				/****** Do something to alert user no more item can load ******/
 			}
 		});
@@ -45,8 +47,7 @@ function loadMore(el) {
 };
 ```
 
-I would suggest you can save the load more ajax link, the page number and the max page number in the loadmore element by data attr like the demo shown.
-
+The html .loadmore element:
 ```
 <div class="loadmore" data-nextpage="2" data-url="./ajax/path-to-load-more.html" data-maxpage="5">
   <div class="spinner-wrap">

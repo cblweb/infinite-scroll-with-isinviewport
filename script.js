@@ -34,13 +34,12 @@ function loadMore(el) {
 			$container.append($items);
 			randerBox();
 			$container.masonry('appended',$items);
-			el.removeClass('loading');
+			el.removeClass('loading'); // Remove the class "loading" from the .loadmore element to allow next load more event
 			nextPage++;
-			el.data('nextpage',nextPage);
-			if(nextPage>el.data('maxpage')) {
-				el.addClass('nomore');
+			el.data('nextpage',nextPage); // Add up the page number and save back to the data attribute
+			if(nextPage>el.data('maxpage')) { // Check if maxpage is reached
 				/****** Do something to alert user no more item can load ******/
-				el.hide();
+				el.addClass('nomore'); // This example I add a nomore class to .loadmore element and use css to show that no item is available
 				/****** Do something to alert user no more item can load ******/
 			}
 		});

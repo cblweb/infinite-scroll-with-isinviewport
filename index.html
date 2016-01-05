@@ -30,6 +30,9 @@
     .loadmore { margin: 50px 0 80px; position: relative; }
     .loadmore:before { content: ""; z-index: -1; background-color: #DDD; height: 1px; width: 100%; position: absolute; top: 15px; }
     .spinner-wrap { margin: 0 auto; width: 44px; height: 32px; padding-left: 20px; background-color: #FFF; }
+    .loadmore.nomore .spinner { display: none; }
+    .loadmore.nomore .spinner-wrap { width: 100px; padding: 0; text-align: center; line-height: 32px; }
+    .loadmore.nomore .spinner-wrap:after { content: "No More Item"; }
     .spinner, .spinner:before, .spinner:after {
       width: 6px;
       height: 30px;
@@ -114,7 +117,8 @@
           <a class="navbar-brand" href="#">Infinite Scroll with isInViewport</a>
         </div>
         <div class="navbar-right">
-          <a class="github-button" href="https://github.com/cblweb/infinite-scroll-with-isinviewport/archive/master.zip" data-style="mega" aria-label="Download cblweb/infinite-scroll-with-isinviewport on GitHub">Download</a>
+          <a class="github-button" href="https://github.com/cblweb/infinite-scroll-with-isinviewport" data-style="mega" aria-label="Download cblweb/infinite-scroll-with-isinviewport on GitHub">View On Github</a>
+          <a class="github-button" href="https://github.com/cblweb/infinite-scroll-with-isinviewport/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download cblweb/infinite-scroll-with-isinviewport on GitHub">Download</a>
         </div>
       </div>
     </nav>
