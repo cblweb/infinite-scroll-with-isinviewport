@@ -8,8 +8,11 @@ The example uses masonry for beautiful showcase, it is not necessary.
 
 ## How it Work
 Firstly, we need to listen the scroll event of $(window), by detect the .loadmore element is or is not in-viewport to decide do or not do the *load more action*.
+
 Then we need to check it is during loading or not to prevent more then one *load more action* to be called.
+
 Finally, call your loadMore function.
+
 I would suggest you can save the *load more ajax link*, *the page number* and *the max page number* all in the .loadmore element by data attribute like the demo shown.
 
 ```javascript
